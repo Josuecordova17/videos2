@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const fetch = require('node-fetch');
 const palabras = `_*Palabras disponibles*_:
 Fisica - Manda los videos de Fisica disponibles
-Biologia - Manda los videos de Biologia disponibles
+Logica - Manda los videos de Logica disponibles
 Quimica - Manda los videos de Quimica disponibles
 ayuda - Envia las palabras y los comandos disponibles
 videos - Manda la vista de los videos disponibles`
@@ -63,7 +63,7 @@ client.on('message', msg => {
     } else if(txt=='videos'|| txt=="video") {
         console.log(txt);
         clases(msg)
-    }else if (txt=='biologia'||txt=='fisica'||txt=='quimica') {
+    }else if (txt=='logica'||txt=='fisica'||txt=='quimica') {
         nclase(msg,txt)
     }else{
         video(msg,txt)
@@ -136,7 +136,7 @@ fetch('http://192.168.0.8/nclases', {
 function video(msg,txt) {
     let res = txt.split(" ", 1);
      res=res[0]
-     if (res=='fisica'||res=='biologia'||res=='quimica') {
+     if (res=='fisica'||res=='logica'||res=='quimica') {
         let sql ="SELECT * FROM `videos` WHERE `video`='"+ txt + "'"
         connection.query(sql,(err,rows,fields)=>{
             if (!err) {
