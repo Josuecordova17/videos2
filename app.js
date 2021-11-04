@@ -65,7 +65,10 @@ client.on('message', msg => {
         clases(msg)
     }else if (txt=='logica'||txt=='fisica'||txt=='quimica') {
         nclase(msg,txt)
-    }else{
+    }else if (txt=='Todo'|| txt=='todo'|| txt=="Todas"||txt=="todas") {
+        todas(msg)
+    }
+    else{
         video(msg,txt)
     }
 });
@@ -125,7 +128,7 @@ return nombre
 function nclase(msg,txt) {
     const body = { txt: txt };
  
-fetch('http://192.168.0.8/nclases', {
+fetch('http://192.168.1.8/nclases', {
         method: 'put',
         body:    JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' },
@@ -145,7 +148,7 @@ function video(msg,txt) {
                     msg.reply(`Oh no el video solicitado no existe :
 Comprueba la ortografia
 ${palabras}
-Tambien puedes revisar la ortografia`,{parse_mode:'HTML'})
+Tambien puedes revisar la ortografia`)
                 } else {
                  msg.reply(`El link es : ${rows[0].linkVideo}`)   
                 }  
@@ -155,4 +158,18 @@ Tambien puedes revisar la ortografia`,{parse_mode:'HTML'})
             })     
      }
       
+}
+async function todas(msg) {
+     resultado =await executeQuery("SELECT `video`, `linkVideo` FROM `videos` WHERE `linkVideo` NOT IN ('')")
+     rows = resultado.rows
+    let re='';
+    for (let i = 0; i < rows.length; i++) {
+        let n =rows[i].video,
+    nombre=cap(n)
+        re =re +`
+`+
+`*${nombre} :*
+${rows[i].linkVideo}`
+    }
+    msg.reply(re)
 }
